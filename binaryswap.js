@@ -854,17 +854,17 @@ var ogdata = {
       ]
     }
   }
-  const jsontoarraywithidnoparseint = (data) => {
-    var arrr= [];
-    var listing = Object.keys(data)
-    listing.map((x) => arrr.push(data[x]))
-    for (let i = 0; i < arrr.length; i++){
-        arrr[i]["id"]=listing[i]
-    }
-    return arrr
+const jsontoarraywithidnoparseint = (data) => {
+  var arrr= [];
+  var listing = Object.keys(data)
+  listing.map((x) => arrr.push(data[x]))
+  for (let i = 0; i < arrr.length; i++){
+      arrr[i]["id"]=listing[i]
   }
-  var details = jsontoarraywithidnoparseint(ogdata);
-  const filteredPats = details.filter(
+  return arrr
+}
+var details = jsontoarraywithidnoparseint(ogdata);
+const filteredPats = details.filter(
     pat => {
       return (
         pat
@@ -881,8 +881,29 @@ var ogdata = {
         .includes(searchField.toLowerCase())
       );
     }
-  );
-  const binaryFilter = details.filter(
-    
-  )
-console.log(filteredPats)
+);
+//console.log(filteredPats)
+
+function binarySearchJSON(jsonObjects, targetValue) {
+  let results = [];
+
+  for (let i = 0; i < jsonObjects.length; i++) {
+    const jsonObject = jsonObjects[i];
+    const values = Object.values(jsonObject);
+
+    for (let j = 0; j < values.length; j++) {
+      const value = values[j];
+
+      if (typeof value === "string" && value.includes(targetValue)) {
+        results.push(jsonObject);
+        break;
+      }
+    }
+  }
+
+  return results;
+}
+
+
+const result = binarySearchJSON(details, "Miko");
+console.log(result);
