@@ -53,3 +53,85 @@ function binarySearchJSON(jsonObjects, key, targetValue) {
     // Target value not found
     return null;
   }
+
+  function binarySearchJSON3(jsonObjects, targetValue) {
+    let results = [];
+  
+    for (let i = 0; i < jsonObjects.length; i++) {
+      const jsonObject = jsonObjects[i];
+      const values = Object.values(jsonObject);
+  
+      for (let j = 0; j < values.length; j++) {
+        const value = values[j];
+  
+        if (typeof value === "string" && value.includes(targetValue)) {
+          results.push(jsonObject);
+          break;
+        }
+      }
+    }
+  
+    return results;
+  }
+  function binarySearchJSON4(jsonObjects, targetValue) {
+    let results = [];
+  
+    let low = 0;
+    let high = jsonObjects.length - 1;
+  
+    while (low <= high) {
+      let mid = Math.floor((low + high) / 2);
+      let jsonObject = jsonObjects[mid];
+      let values = Object.values(jsonObject);
+  
+      for (let j = 0; j < values.length; j++) {
+        const value = values[j];
+  
+        if (typeof value === "string" && value.includes(targetValue)) {
+          results.push(jsonObject);
+          break;
+        }
+      }
+  
+      let lastValue = values[values.length - 1];
+  
+      if (lastValue.localeCompare(targetValue) < 0) {
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+  
+    return results;
+  }
+  function binarySearchJSON5(jsonObjects, targetValue) {
+    let results = [];
+    
+    let low = 0;
+    let high = jsonObjects.length - 1;
+  
+    while (low <= high) {
+      let mid = Math.floor((low + high) / 2);
+      let jsonObject = jsonObjects[mid];
+      let values = Object.values(jsonObject);
+  
+      for (let j = 0; j < values.length; j++) {
+        const value = values[j];
+  
+        if (typeof value === "string" && value.includes(targetValue)) {
+          results.push(value);
+        }
+      }
+  
+      let lastValue = values[values.length - 1];
+  
+      if (lastValue.localeCompare(targetValue) < 0) {
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
+    }
+  
+    return results;
+  }
+  

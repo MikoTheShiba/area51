@@ -883,27 +883,63 @@ const filteredPats = details.filter(
     }
 );
 //console.log(filteredPats)
-
-function binarySearchJSON(jsonObjects, targetValue) {
+function binarySearch(jsonArray, searchString) {
   let results = [];
 
-  for (let i = 0; i < jsonObjects.length; i++) {
-    const jsonObject = jsonObjects[i];
-    const values = Object.values(jsonObject);
+  let start = 0;
+  let end = jsonArray.length - 1;
 
-    for (let j = 0; j < values.length; j++) {
-      const value = values[j];
+  while (start <= end) {
+    let mid = Math.floor((start + end) / 2);
+    let object = jsonArray[mid];
+
+    // Check if the string is present in the object
+    if (JSON.stringify(object).includes(searchString)) {
+      results.push(object);
+    }
+
+    // If the search string is less than the object, search the left half
+    if (searchString < JSON.stringify(object)) {
+      end = mid - 1;
+    }
+    // If the search string is greater than the object, search the right half
+    else {
+      start = mid + 1;
+    }
+  }
+
+  return results;
+}
+function binarySearchJSON(jsonObjects, targetValue) {
+  let results = [];
+  
+  let low = 0;
+  let high = jsonObjects.length - 1;
+
+  while (low <= high) {
+    let mid = Math.floor((low + high) / 2);
+    let jsonObject = jsonObjects[mid];
+    let entries = Object.entries(jsonObject);
+
+    for (let j = 0; j < entries.length; j++) {
+      const [key, value] = entries[j];
 
       if (typeof value === "string" && value.includes(targetValue)) {
         results.push(jsonObject);
-        break;
       }
+    }
+
+    let lastEntry = entries[entries.length - 1];
+
+    if (lastEntry[1].localeCompare(targetValue) < 0) {
+      low = mid + 1;
+    } else {
+      high = mid - 1;
     }
   }
 
   return results;
 }
 
-
-const result = binarySearchJSON(details, "Miko");
+const result = binarySearch(details, "mikoangeles");
 console.log(result);
