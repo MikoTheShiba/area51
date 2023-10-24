@@ -57,7 +57,7 @@ const binarykey = (data, tgt, tgk) => {
     return result;
   }, []);
   combinedList.map((x)=>fin[x]=data[x])
-  return fin
+  return jsontoarraywithidnoparseint(fin)
 }
 console.log(binarykey(ogdata,"miko", ["nam", "email"]))
 
