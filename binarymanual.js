@@ -38,19 +38,35 @@ const keyer = (data, tgt) => {
   //listing.map((x)=> console.log(data[x]))
   return dict;
 }
-const binarykey = (data, tgt) => {
+const keytaker = (data, tgt, tgk) => {
   var fin = {}
-  var namdata = keyer(data, "nam")
+  var namdata = keyer(data, tgk)
   var namres = binarySearch(Object.keys(namdata).sort(), tgt.toLowerCase())
-  //console.log(namdata)
-  //console.log(namdata[Object.keys(namdata).sort()[namres]])
-  if (namres!=-1) {
+  if (namres!=-1) return namdata[Object.keys(namdata).sort()[namres]]
+  else return [];
+}
+const binarykey = (data, tgt, tgk) => {
+  var fin = {}
+  var fullcheck = tgk.map((x)=>{return keytaker(data, tgt, x)})
+  const combinedList = fullcheck.reduce((result, sublist) => {
+    sublist.forEach(item => {
+      if (!result.includes(item)) {
+        result.push(item);
+      }
+    });
+    return result;
+  }, []);
+  combinedList.map((x)=>fin[x]=data[x])
+  return fin
+}
+console.log(binarykey(ogdata,"miko", ["nam", "email"]))
+
+/*
+if (namres!=-1) {
     namdata[Object.keys(namdata).sort()[namres]].map((x)=> fin[x]=data[x]);
     return jsontoarraywithidnoparseint(fin)
   } else {return fin}
-}
-console.log(binarykey(ogdata,"dee"))
-
+*/
 var details = jsontoarraywithidnoparseint(ogdata);
 const filteredPats = details.filter(
     pat => {
