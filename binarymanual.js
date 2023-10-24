@@ -32,8 +32,8 @@ const keyer = (data, tgt) => {
   var listing = Object.keys(data)
   //listing.map((x) => dict[data[x][tgt]]=data[x]);
   listing.map((x) => {
-    if (dict.hasOwnProperty(data[x][tgt])) dict[data[x][tgt]].push(x);
-    else {dict[data[x][tgt]]=[]; dict[data[x][tgt]].push(x);}
+    if (dict.hasOwnProperty(data[x][tgt].toLowerCase())) dict[data[x][tgt].toLowerCase()].push(x);
+    else {dict[data[x][tgt].toLowerCase()]=[]; dict[data[x][tgt].toLowerCase()].push(x);}
   })
   //listing.map((x)=> console.log(data[x]))
   return dict;
@@ -41,12 +41,15 @@ const keyer = (data, tgt) => {
 const binarykey = (data, tgt) => {
   var fin = {}
   var namdata = keyer(data, "nam")
-  var namres = binarySearch(Object.keys(namdata).sort(), tgt)
+  var namres = binarySearch(Object.keys(namdata).sort(), tgt.toLowerCase())
+  //console.log(namdata)
   //console.log(namdata[Object.keys(namdata).sort()[namres]])
-  namdata[Object.keys(namdata).sort()[namres]].map((x)=> fin[x]=data[x]);
-  return jsontoarraywithidnoparseint(fin)
+  if (namres!=-1) {
+    namdata[Object.keys(namdata).sort()[namres]].map((x)=> fin[x]=data[x]);
+    return jsontoarraywithidnoparseint(fin)
+  } else {return fin}
 }
-console.log(binarykey(ogdata,"Dee"))
+console.log(binarykey(ogdata,"dee"))
 
 var details = jsontoarraywithidnoparseint(ogdata);
 const filteredPats = details.filter(
